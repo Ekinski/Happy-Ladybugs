@@ -1,0 +1,73 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Solution {
+
+    // Complete the happyLadybugs function below.
+    static string happyLadybugs(string b, int n) {
+        char[] chars = b.ToCharArray(); 
+        int count = 0;
+        int space = 0;
+
+        if (Array.Exists(chars, element => element == '_')){ //sort array if we have '_'
+            Array.Sort(chars);
+        }
+        
+        if (chars[0] == '_')  { // after sorting the first char is '_' we print YES, as the rest of the chars are also '_'
+            return "YES";
+        }
+
+        for(int a = 0; a < chars.Length -1; a++){
+            if (chars[a +1] == '_'){
+                space++;
+                break;
+            }
+            if (chars[a] == chars[a+1]){
+                count++;
+            } else if (count <= 0){
+                return "NO";
+                break;
+            } else {
+                count = 0;
+                
+            }
+        }
+        
+        if (count > 0){
+            return "YES";
+        } else {
+            return "NO";
+        }
+        
+    }
+
+    static void Main(string[] args) {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        int g = Convert.ToInt32(Console.ReadLine());
+
+        for (int gItr = 0; gItr < g; gItr++) {
+            int n = Convert.ToInt32(Console.ReadLine());
+
+            string b = Console.ReadLine();
+
+            string result = happyLadybugs(b, n);
+
+            textWriter.WriteLine(result);
+        }
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
